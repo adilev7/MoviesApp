@@ -47,6 +47,7 @@ export const FavMoviesProvider = (props) => {
   useEffect(() => {
     fetchMovies();
   }, []);
+
   return (
     <FavMoviesContext.Provider
       value={{

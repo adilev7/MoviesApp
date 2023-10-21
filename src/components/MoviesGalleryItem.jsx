@@ -1,21 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ImageListItem, ImageListItemBar } from "@mui/material";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import StarIcon from "@mui/icons-material/Star";
+import { Star, StarBorder } from "@mui/icons-material";
 import FavMoviesContext from "@/store/fav-movies-context";
 import { getApiImageUrl } from "@/utils";
-import BaseIconButton from '@/components/UI/BaseIconButton'
-import { Link } from "react-router-dom";
+import BaseIconButton from "@/components/UI/BaseIconButton";
 
 const MoviesGalleryItem = ({ movie }) => {
-
   const [isFav, setIsFav] = useState(false);
   const favMoviesCtx = useContext(FavMoviesContext);
 
   const favToggleHandler = (e) => {
     e.preventDefault();
     favMoviesCtx.toggleFavMovie(movie);
-    setIsFav(fav => !fav);
+    setIsFav((fav) => !fav);
   };
 
   useEffect(() => {
@@ -23,9 +21,16 @@ const MoviesGalleryItem = ({ movie }) => {
     setIsFav(isFavorite);
   }, []);
 
+  const starIcon = isFav ? <Star /> : <StarBorder />;
 
   return (
-    <ImageListItem component={Link} to={`/${movie.id}`} cols={3} rows={2} className="hover-grow-slow">
+    <ImageListItem
+      component={Link}
+      to={`/${movie.id}`}
+      cols={3}
+      rows={2}
+      className="hover-grow-slow"
+    >
       <img
         src={getApiImageUrl(movie.poster_path)}
         alt={movie.title}
@@ -44,7 +49,7 @@ const MoviesGalleryItem = ({ movie }) => {
             onClick={favToggleHandler}
             aria-label={`star ${movie.title}`}
           >
-            {isFav ? <StarIcon /> : <StarBorderIcon />}
+            {starIcon}
           </BaseIconButton>
         }
         actionPosition="left"
