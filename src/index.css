@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  font-weight: 400;
+}
+body {
+  min-height: 100vh;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0 auto;
+}
+
+.MoviesGallery {
+  height: 90vh;
+  padding: 2em;
+}
+.MoviesGallery-filter {
+  width: fit-content;
+  margin: 2em 0 2em auto;
+}

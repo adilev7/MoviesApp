@@ -1,0 +1,10 @@
+// export const API_KEY = import.meta.env.VITE_API_KEY;
+// export const API_URL = import.meta.env.VITE_API_URL;
+// export const APP_HOST = import.meta.env.VITE_APP_HOST;
+export const API_KEY = "2c46288716a18fb7aadcc2a801f3fc6b";
+export const API_URL = "https://api.themoviedb.org/3";
+export const API_IMG_URL = "https://image.tmdb.org/t/p";
+export const APP_HOST = "http://localhost:5173";
+export const LS_TOKEN = "req_token";
+export const LS_SESSION = "session_id";
+export const LS_ACCOUNT = "account_id";
