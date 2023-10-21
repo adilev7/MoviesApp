@@ -9,7 +9,6 @@ export const router = createBrowserRouter([
     
     path: "/",
     element: <App />,
-    errorElement: <h1>An unexpected error occurred</h1>,
     children: [
       { path: "", element: <HomePage /> },
       { path: ":id", element: <MoviePage /> },

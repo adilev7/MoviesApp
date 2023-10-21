@@ -9,6 +9,7 @@ import {
 import MoviesGalleryItem from "@/components/MoviesGalleryItem";
 import FavMoviesContext from "@/store/fav-movies-context";
 import { fetchMoviesByCategory } from "@/services/movies-service";
+import ErrorBoundary from "@/ErrorBoundary";
 
 const MoviesGallery = () => {
   const [movies, setMovies] = useState([]);
@@ -35,7 +36,7 @@ const MoviesGallery = () => {
   const filterChangeHandler = (event) => {
     setFilterBy(event.target.value);
   };
-  
+
   useEffect(() => {
     fetchMovies();
   }, [filterBy]);
@@ -57,13 +58,12 @@ const MoviesGallery = () => {
           }}
           cols={12}
           rowHeight={200}
-          gap={1}
+          gap={20}
         >
           {movies.map((movie) => (
-            <MoviesGalleryItem
-              key={movie.id}
-              movie={movie}
-            />
+            <ErrorBoundary key={movie.id}>
+              <MoviesGalleryItem movie={movie} />
+            </ErrorBoundary>
           ))}
         </ImageList>
       ) : isLoading ? (

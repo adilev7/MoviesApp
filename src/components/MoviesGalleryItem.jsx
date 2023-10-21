@@ -1,15 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
-import { IconButton, ImageListItem, ImageListItemBar } from "@mui/material";
+import { ImageListItem, ImageListItemBar } from "@mui/material";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import FavMoviesContext from "@/store/fav-movies-context";
 import { getApiImageUrl } from "@/utils";
+import BaseIconButton from '@/components/UI/BaseIconButton'
+import { Link } from "react-router-dom";
 
 const MoviesGalleryItem = ({ movie }) => {
+
   const [isFav, setIsFav] = useState(false);
   const favMoviesCtx = useContext(FavMoviesContext);
 
-  const favToggleHandler = () => {
+  const favToggleHandler = (e) => {
+    e.preventDefault();
     favMoviesCtx.toggleFavMovie(movie);
     setIsFav(fav => !fav);
   };
@@ -18,8 +22,10 @@ const MoviesGalleryItem = ({ movie }) => {
     const isFavorite = favMoviesCtx.isFavorite(movie.id);
     setIsFav(isFavorite);
   }, []);
+
+
   return (
-    <ImageListItem cols={3} rows={2}>
+    <ImageListItem component={Link} to={`/${movie.id}`} cols={3} rows={2} className="hover-grow-slow">
       <img
         src={getApiImageUrl(movie.poster_path)}
         alt={movie.title}
@@ -34,13 +40,12 @@ const MoviesGalleryItem = ({ movie }) => {
         title={movie.title}
         position="top"
         actionIcon={
-          <IconButton
+          <BaseIconButton
             onClick={favToggleHandler}
-            sx={{ color: "white" }}
             aria-label={`star ${movie.title}`}
           >
             {isFav ? <StarIcon /> : <StarBorderIcon />}
-          </IconButton>
+          </BaseIconButton>
         }
         actionPosition="left"
       />

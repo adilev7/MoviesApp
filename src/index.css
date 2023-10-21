@@ -2,10 +2,23 @@
   margin: 0;
   padding: 0;
   font-family: Roboto, Arial, Helvetica, sans-serif;
-  font-weight: 400;
 }
+
 body {
   min-height: 100vh;
+  font-weight: 400;
+  color: #ffffffee;
+  background-color: #000;
+}
+
+.hover-grow:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.hover-grow-slow:hover {
+  transform: scale(1.05);
+  transition: transform 1s ease-in-out;
 }
 
 .App {
@@ -18,9 +31,73 @@ body {
 
 .MoviesGallery {
   height: 90vh;
-  padding: 2em;
 }
+
 .MoviesGallery-filter {
+  background-color: #fff;
   width: fit-content;
   margin: 2em 0 2em auto;
+}
+
+.MovieDetails {
+  position: relative;
+  min-height: 100vh;
+  background-color: #000;
+}
+
+.MovieDetails .MovieDetails-Back {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.MovieDetails .MovieDetails-Back:hover {
+  transform: scale(1.1);
+}
+
+.MovieDetails-Genres {
+  margin-bottom: 2em;
+  font-weight: 300;
+}
+
+.MovieDetails-Description {
+  font-size: 1.3em;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.AppBanner {
+  position: relative;
+  height: 50vw;
+  width: 100vw;
+  background-position: center;
+  background-size: cover;
+  z-index: 0;
+}
+
+.AppBanner::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0) 70%,
+    rgba(0, 0, 0, 0.2) 80%,
+    rgba(0, 0, 0, 0.7) 90%,
+    rgba(0, 0, 0, 0.9) 95%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+
+@media only screen and (min-width: 729px) {
+  .AppBanner {
+    height: 25vw;
+  }
+  .MovieDetails-Content {
+    width: 80%;
+  }
 }

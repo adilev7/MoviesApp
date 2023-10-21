@@ -8,7 +8,7 @@ import { CircularProgress } from "@mui/material";
 const FavMoviesContext = createContext({
   favMovies: [],
   isFavorite: (id) => {},
-  toggleFavMovie: (id) => {},
+  toggleFavMovie: (movie) => {},
 });
 
 export const FavMoviesProvider = (props) => {
@@ -26,7 +26,7 @@ export const FavMoviesProvider = (props) => {
     setLoading(false);
   };
 
-  const toggleFavHandler = (movie) => {
+  const toggleFavMovie = (movie) => {
     setFavMovies((movies) => {
       const movieIndex = movies.findIndex((m) => m.id === movie.id);
 
@@ -37,15 +37,12 @@ export const FavMoviesProvider = (props) => {
         return updatedMovies;
       } else {
         setFavoriteMovie(movie.id, true);
-        return [...movies, { ...movie, isFavorite: true }];
+        return [...movies, movie];
       }
     });
   };
 
-  const isFavHandler = (id) => {
-    const isF = favMovies.some((m) => m.id === id);
-    return isF;
-  };
+  const isFavorite = (id) => favMovies.some((m) => m.id === id);
 
   useEffect(() => {
     fetchMovies();
@@ -54,12 +51,12 @@ export const FavMoviesProvider = (props) => {
     <FavMoviesContext.Provider
       value={{
         favMovies,
-        isFavorite: isFavHandler,
-        toggleFavMovie: toggleFavHandler,
+        isFavorite,
+        toggleFavMovie,
         loading,
       }}
     >
-      {loading ? <CircularProgress/> : props.children}
+      {loading ? <CircularProgress /> : props.children}
     </FavMoviesContext.Provider>
   );
 };

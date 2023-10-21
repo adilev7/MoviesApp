@@ -6,5 +6,5 @@ export const checkApiAuth = () => ls.getItem(LS_TOKEN) && ls.getItem(LS_SESSION)
 
 export const getApiImageUrl = (path, size) => {
   const imgSize = !size || size === 'original' ? 'original' : `w${size}`;
-  return `${API_IMG_URL}/${imgSize}/${path}`
+  return `${API_IMG_URL}/${imgSize}/${path.replace('/', '')}`
 }

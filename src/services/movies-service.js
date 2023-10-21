@@ -8,3 +8,11 @@ export const fetchMoviesByCategory = async (category, params) => {
   }
   throw new Error("Failed to fetch movies");
 };
+
+export const fetchMovieById = async (id, params) => {
+  const res = await http.get(`${API_URL}/movie/${id}`, { params });
+  if (res.data) {
+    return res.data;
+  }
+  throw new Error("Failed to fetch movie");
+};
