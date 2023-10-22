@@ -37,6 +37,7 @@ export const setApiAuth = async (shouldReset = false) => {
     const res = await http.get("/authentication/session/new", {
       params: { request_token },
     });
+
     if (res.data.success) {
       ls.setItem(LS_SESSION, res.data.session_id);
       const account_id = await getAccountID();

@@ -1,6 +1,5 @@
 import axios from "axios";
 import { API_KEY, API_URL } from "@/constants";
-import { setApiAuth } from "@/services/auth-service";
 
 const reqInterceptHandler = (config) => {
   config.params = {
@@ -19,9 +18,6 @@ const resSuccessHandler = (res) => {
   return res;
 };
 const resErrorHandler = (error) => {
-  if (error.response?.status === 401) {
-    return setApiAuth(true);
-  }
   return Promise.reject(error);
 };
 

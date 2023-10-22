@@ -5,21 +5,19 @@ import { checkApiAuth } from "@/utils";
 
 const AuthContext = createContext({
   isLoggedIn: false,
-  loading: false
+  loading: false,
 });
-
 
 export const AuthProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState([]);
   const [loading, setLoading] = useState(false);
-  
+
   const setAuthHandler = async () => {
     setLoading(true);
     await setApiAuth();
     setIsLoggedIn(checkApiAuth);
     setLoading(false);
   };
-
 
   useEffect(() => {
     setAuthHandler();
@@ -32,7 +30,7 @@ export const AuthProvider = (props) => {
         loading,
       }}
     >
-      {loading ? <CircularProgress/> : props.children}
+      {loading ? <CircularProgress /> : props.children}
     </AuthContext.Provider>
   );
 };
