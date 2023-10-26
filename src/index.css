@@ -2,6 +2,31 @@
   margin: 0;
   padding: 0;
   font-family: Roboto, Arial, Helvetica, sans-serif;
+  --fade-bg-bottom: linear-gradient(
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.1) 70%,
+    rgba(0, 0, 0, 0.2) 80%,
+    rgba(0, 0, 0, 0.5) 90%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+  --fade-bg-top: linear-gradient(
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.7) 12.5%,
+    rgba(0, 0, 0, 0.6) 25%,
+    rgba(0, 0, 0, 0.5) 37.5%,
+    rgba(0, 0, 0, 0.4) 50%,
+    rgba(0, 0, 0, 0.3) 62.5%,
+    rgba(0, 0, 0, 0.2) 75%,
+    rgba(0, 0, 0, 0.1) 87.5%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  --galleryItemHeight: 400px;
+  --galleryItemWidth: 270px;
+  --galleryPerRow: 1;
+  --galleryGap: 1em;
+  --galleryWidth: calc(
+    (var(--galleryItemWidth) + var(--galleryGap)) * var(--galleryPerRow)
+  );
 }
 
 body {
@@ -54,6 +79,64 @@ body {
   background-color: #ffffff43;
 }
 
+.MoviesGallery-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  width: var(--galleryWidth);
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.MoviesGalleryItem {
+  position: relative;
+  height: var(--galleryItemHeight);
+  width: var(--galleryItemWidth);
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-size 3s ease-in-out;
+}
+.MoviesGalleryItem:hover {
+  background-size: 120%;
+}
+.MoviesGalleryItem::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50%;
+  background: var(--fade-bg-bottom);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.MoviesGalleryItem:hover::after {
+  opacity: 1;
+}
+.MoviesGalleryItem::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 10%;
+  background: var(--fade-bg-top);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.MoviesGalleryItem:hover::before {
+  opacity: 1;
+}
+.MoviesGalleryItem .fav-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.2s ease-in-out;
+}
+.MoviesGalleryItem .fav-btn:hover {
+  transform: scale(1.5);
+}
+
 .MovieDetails {
   position: relative;
   min-height: 100vh;
@@ -98,21 +181,27 @@ body {
   bottom: 0;
   width: 100%;
   height: 50%;
-  background: linear-gradient(
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0) 70%,
-    rgba(0, 0, 0, 0.2) 80%,
-    rgba(0, 0, 0, 0.7) 90%,
-    rgba(0, 0, 0, 0.9) 95%,
-    rgba(0, 0, 0, 1) 100%
-  );
+  background: var(--fade-bg-bottom);
 }
 
-@media only screen and (min-width: 729px) {
+@media only screen and (min-width: 629px) {
+  :root {
+    --galleryPerRow: 2;
+  }
+}
+@media only screen and (min-width: 900px) {
+  :root {
+    --galleryPerRow: 3;
+  }
   .AppBanner {
     height: 25vw;
   }
   .MovieDetails-Content {
     width: 80%;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  :root {
+    --galleryPerRow: 4;
   }
 }

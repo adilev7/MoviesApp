@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ImageListItem, ImageListItemBar } from "@mui/material";
+import { Grid, ImageListItem, ImageListItemBar } from "@mui/material";
 import { Star, StarBorder } from "@mui/icons-material";
 import FavMoviesContext from "@/store/fav-movies-context";
 import { getApiImageUrl } from "@/utils";
@@ -21,40 +21,54 @@ const MoviesGalleryItem = ({ movie }) => {
     setIsFav(isFavorite);
   }, []);
 
-  const starIcon = isFav ? <Star /> : <StarBorder />;
+  const starIcon = isFav ? <Star className="star active" /> : <StarBorder className="star" />;
 
   return (
-    <ImageListItem
-      component={Link}
+    <Link
+      className="MoviesGalleryItem"
+      style={{backgroundImage: `url(${getApiImageUrl(movie.poster_path)})`}}
+      title={movie.title}
       to={`/${movie.id}`}
-      cols={3}
-      rows={2}
-      className="hover-grow-slow"
     >
-      <img
-        src={getApiImageUrl(movie.poster_path)}
-        alt={movie.title}
-        loading="lazy"
-      />
-      <ImageListItemBar
-        sx={{
-          background:
-            "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
-            "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
-        }}
-        title={movie.title}
-        position="top"
-        actionIcon={
-          <BaseIconButton
-            onClick={favToggleHandler}
-            aria-label={`star ${movie.title}`}
-          >
-            {starIcon}
-          </BaseIconButton>
-        }
-        actionPosition="left"
-      />
-    </ImageListItem>
+      <BaseIconButton
+        onClick={favToggleHandler}
+        className="fav-btn"
+        aria-label={`star ${movie.title}`}
+      >
+        {starIcon}
+      </BaseIconButton>
+    </Link>
+    // <ImageListItem
+    //   component={Link}
+    //   to={`/${movie.id}`}
+    //   cols={3}
+    //   rows={2}
+    //   className="hover-grow-slow"
+    // >
+    //   <img
+    //     src={getApiImageUrl(movie.poster_path)}
+    //     alt={movie.title}
+    //     loading="lazy"
+    //   />
+    //   <ImageListItemBar
+    //     sx={{
+    //       background:
+    //         "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
+    //         "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+    //     }}
+    //     title={movie.title}
+    //     position="top"
+    //     actionIcon={
+    //       <BaseIconButton
+    //         onClick={favToggleHandler}
+    //         aria-label={`star ${movie.title}`}
+    //       >
+    //         {starIcon}
+    //       </BaseIconButton>
+    //     }
+    //     actionPosition="left"
+    //   />
+    // </ImageListItem>
   );
 };
 

@@ -6,16 +6,14 @@ import { setApiAuth } from "@/services/auth-service";
 import { checkApiAuth } from "@/utils";
 import { CircularProgress } from "@mui/material";
 
-
-
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
+
   const setAuthHandler = async () => {
     await setApiAuth();
     setIsLoggedIn(checkApiAuth);
   };
-  
+
   useEffect(() => {
     setAuthHandler();
   }, []);

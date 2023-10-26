@@ -2,9 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   CircularProgress,
   Container,
+  Grid,
   ImageList,
   MenuItem,
   Pagination,
+  Paper,
   Select,
   Stack,
 } from "@mui/material";
@@ -12,7 +14,7 @@ import MoviesGalleryItem from "@/components/MoviesGalleryItem";
 import FavMoviesContext from "@/store/fav-movies-context";
 import { fetchMoviesByCategory } from "@/services/movies-service";
 import ErrorBoundary from "@/ErrorBoundary";
-import { API_PAGES_LIMIT } from "../constants";
+import { API_PAGES_LIMIT } from "@/constants";
 
 const MoviesGallery = () => {
   const [movies, setMovies] = useState([]);
@@ -21,14 +23,17 @@ const MoviesGallery = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
-  const favMoviesCtx = useContext(FavMoviesContext);
+  const { favMovies, totalPages: favTotalPages } = useContext(FavMoviesContext);
 
   const fetchMovies = async () => {
     setIsLoading(true);
     try {
       if (filterBy === "favorites") {
-        setMovies(favMoviesCtx.favMovies);
-        setTotalPages(1);
+        const moviesPerPage = 20;
+        const startIdx = moviesPerPage * (page - 1);
+        const endIdx = startIdx + moviesPerPage;
+        setMovies(favMovies.slice(startIdx, endIdx));
+        setTotalPages(favTotalPages);
       } else {
         const { results, total_pages } = await fetchMoviesByCategory(filterBy, {
           page,
@@ -57,15 +62,18 @@ const MoviesGallery = () => {
     fetchMovies();
   }, [filterBy, page]);
 
-  const pagination = totalPages > 1 ? (
-    <Pagination
-      className="MoviesGallery-Pagination"
-      size="large"
-      page={page}
-      count={totalPages}
-      onChange={pageChangeHandler}
-    />
-  ) : <></>;
+  const pagination =
+    totalPages > 1 ? (
+      <Pagination
+        className="MoviesGallery-Pagination"
+        size="large"
+        page={page}
+        count={totalPages}
+        onChange={pageChangeHandler}
+      />
+    ) : (
+      <></>
+    );
 
   return (
     <Container className="MoviesGallery">
@@ -84,7 +92,15 @@ const MoviesGallery = () => {
           </Select>
         </div>
       </Stack>
-      {isLoading ? (
+
+        <div className="MoviesGallery-gallery">
+          {movies.map((movie) => (
+            <ErrorBoundary key={movie.id}>
+              <MoviesGalleryItem movie={movie} />
+            </ErrorBoundary>
+          ))}
+        </div>
+      {/* {isLoading ? (
         <CircularProgress />
       ) : movies.length ? (
         <ImageList
@@ -104,7 +120,7 @@ const MoviesGallery = () => {
         </ImageList>
       ) : (
         <></>
-      )}
+      )} */}
       {pagination}
     </Container>
   );

@@ -24,14 +24,44 @@ export const fetchFavoriteMovies = async (params = {}) => {
   if (!account_id) {
     throw new Error("Cannot fetch favorite movies. Account ID is required.");
   }
+
   const res = await http.get(
     `${API_URL}/account/${account_id}/favorite/movies`,
     { params: { ...params, session_id } }
   );
   if (res.data?.results) {
-    return res.data.results;
+    return {
+      results: res.data.results,
+      page: res.data.page,
+      total_pages: res.data.total_pages,
+    };
   }
   throw new Error("Failed to fetch favorite movies");
+};
+
+export const fetchAllFavoriteMovies = async () => {
+  const movies = [];
+  let page = 1;
+
+  while (true) {
+    try {
+      const {
+        page: currentPage,
+        total_pages,
+        results,
+      } = await fetchFavoriteMovies({ page });
+      movies.push(...results);
+
+      if (currentPage >= total_pages) {
+        return { movies, total_pages };
+      }
+
+      page++;
+    } catch (error) {
+      console.error("An error occurred while fetching favorite movies:", error);
+      throw error;
+    }
+  }
 };
 
 export const setFavoriteMovie = async (id, isFav) => {

@@ -1,25 +1,26 @@
 import { createContext, useEffect, useState } from "react";
-import {
-  fetchFavoriteMovies,
-  setFavoriteMovie,
-} from "@/services/account-service";
+import { setFavoriteMovie } from "@/services/account-service";
 import { CircularProgress } from "@mui/material";
+import { fetchAllFavoriteMovies } from "../services/account-service";
 
 const FavMoviesContext = createContext({
   favMovies: [],
   isFavorite: (id) => {},
   toggleFavMovie: (movie) => {},
+  totalPages: 0,
 });
 
 export const FavMoviesProvider = (props) => {
   const [favMovies, setFavMovies] = useState([]);
+  const [totalPages, setTotalPages] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const fetchMovies = async () => {
     setLoading(true);
     try {
-      const favMovies = await fetchFavoriteMovies();
-      setFavMovies(favMovies);
+      const { movies, total_pages } = await fetchAllFavoriteMovies();
+      setFavMovies(movies);
+      setTotalPages(total_pages);
     } catch (err) {
       console.log(err);
     }
@@ -52,6 +53,7 @@ export const FavMoviesProvider = (props) => {
     <FavMoviesContext.Provider
       value={{
         favMovies,
+        totalPages,
         isFavorite,
         toggleFavMovie,
         loading,
